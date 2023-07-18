@@ -20,6 +20,9 @@ from component.argument import QLoRAArguments
 from component.trainer import LoRATrainer
 from component.loss import TargetLMLoss
 
+from transformers.deepspeed import HfDeepSpeedConfig
+import deepspeed
+import json
 
 def verify_model_dtype(model):
     """
