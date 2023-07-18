@@ -120,6 +120,8 @@ def init_components(args, training_args):
     初始化各个组件
     """
     logger.info('Initializing components...')
+
+    """
     # 下面的设置至关重要，否则无法多卡训练
     world_size = int(os.environ.get("WORLD_SIZE", 1))
     ddp = world_size != 1
@@ -129,6 +131,8 @@ def init_components(args, training_args):
     if os.environ.get('LOCAL_RANK') is not None:
         local_rank = int(os.environ.get('LOCAL_RANK', '0'))
         device_map = {'': local_rank}
+   """
+    
     # 加载模型
     model = AutoModelForCausalLM.from_pretrained(
         args.model_name_or_path,
