@@ -85,7 +85,7 @@ def setup_everything():
     args, training_args = parser.parse_json_file(json_file=train_args_file)
     # 创建输出目录
     if not os.path.exists(training_args.output_dir):
-        os.makedirs(training_args.output_dir)
+        os.makedirs(training_args.output_dir,exist_ok=True)
     # logger.add(join(training_args.output_dir, 'train.log'))
     # logger.info("train_args:{}".format(training_args))
     # 设置随机种子
