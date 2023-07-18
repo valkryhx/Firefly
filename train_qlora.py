@@ -78,6 +78,7 @@ def setup_everything():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train_args_file", type=str, default='train_args/qlora/baichuan-sft-qlora.json', help="")
     parser.add_argument("--deepspeed", type=str, default="train_args/qlora/ds_zero2_config.json")
+    parser.add_argument("--local_rank", type=int, default=0)
     args = parser.parse_args()
     train_args_file = args.train_args_file
     # 读取训练的参数配置
