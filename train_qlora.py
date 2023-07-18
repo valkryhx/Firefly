@@ -1,5 +1,14 @@
 from transformers import AutoTokenizer, BitsAndBytesConfig
-from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+#from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
+from peft import (
+    TaskType,
+    LoraConfig,
+    AdaLoraConfig ,  #  提出自2020年 感觉和lora区别不大 而且和qlora有冲突 这里代码没有用到 
+                     #例子https://www.zhihu.com/question/596950521/answer/3109759716
+    get_peft_model,
+    set_peft_model_state_dict,
+    prepare_model_for_kbit_training
+)
 from transformers import (
     set_seed,
     HfArgumentParser,
