@@ -31,6 +31,7 @@ from component.loss import TargetLMLoss
 
 from transformers.deepspeed import HfDeepSpeedConfig
 import deepspeed
+from transformers.deepspeed import HfDeepSpeedConfig
 import json
 
 def verify_model_dtype(model):
@@ -85,7 +86,7 @@ def find_all_linear_names(model):
         lora_module_names.remove('lm_head')
     return list(lora_module_names)
 
-
+ds_config=""
 def setup_everything():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train_args_file", type=str, default='train_args/qlora/baichuan-sft-qlora.json', help="")
@@ -99,7 +100,7 @@ def setup_everything():
     #here we get deepspeed config  before the args changed by the line#92 args, training_args = parser.parse_json_file(json_file=train_args_file)
     with open(args.deepspeed,'r',encoding='utf-8') as fr:   # 这里就是向TrainingArgs中添加deepseed字段
         training_args_deepspeed = json.load(fr)  # set trainingArgs中deepspeed=ds_config
-    
+        ds_config = training_args_deepspeed
     # 读取训练的参数配置
     parser = HfArgumentParser((QLoRAArguments, TrainingArguments))
     # 解析得到自定义参数，以及自带参数
@@ -132,7 +133,7 @@ def init_components(args, training_args):
         local_rank = int(os.environ.get('LOCAL_RANK', '0'))
         device_map = {'': local_rank}
    """
-    
+    dschf = HfDeepSpeedConfig(ds_config)
     # 加载模型
     model = AutoModelForCausalLM.from_pretrained(
         args.model_name_or_path,
