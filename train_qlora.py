@@ -133,6 +133,7 @@ def init_components(args, training_args):
     model = AutoModelForCausalLM.from_pretrained(
         args.model_name_or_path,
         #device_map=device_map,
+        device_map="auto",
         load_in_4bit=True,
         torch_dtype=torch.float16,
         trust_remote_code=True,
