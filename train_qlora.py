@@ -114,6 +114,7 @@ def init_components(args, training_args):
         load_in_4bit=True,
         torch_dtype=torch.float16,
         trust_remote_code=True,
+        empty_init=False, 
         quantization_config=BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_compute_dtype=torch.float16,
