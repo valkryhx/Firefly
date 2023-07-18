@@ -76,13 +76,16 @@ def find_all_linear_names(model):
 
 def setup_everything():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--train_args_file", type=str, default='train_args/baichuan-sft-qlora.json', help="")
+    parser.add_argument("--train_args_file", type=str, default='train_args/qlora/baichuan-sft-qlora.json', help="")
+    parser.add_argument("--deepspeed", type=str, default="train_args/qlora/ds_zero2_config.json")
     args = parser.parse_args()
     train_args_file = args.train_args_file
     # 读取训练的参数配置
     parser = HfArgumentParser((QLoRAArguments, TrainingArguments))
     # 解析得到自定义参数，以及自带参数
     args, training_args = parser.parse_json_file(json_file=train_args_file)
+    with open(args.deepspeed,'r',encoding='utf-8') as fr:   # 这里就是向TrainingArgs中添加deepseed字段
+        training_args.deepspeed = json.load(fr)  # set trainingArgs中deepspeed=ds_config
     # 创建输出目录
     if not os.path.exists(training_args.output_dir):
         os.makedirs(training_args.output_dir,exist_ok=True)
@@ -110,7 +113,7 @@ def init_components(args, training_args):
     # 加载模型
     model = AutoModelForCausalLM.from_pretrained(
         args.model_name_or_path,
-        device_map=device_map,
+        #device_map=device_map,
         load_in_4bit=True,
         torch_dtype=torch.float16,
         trust_remote_code=True,
@@ -166,6 +169,7 @@ def init_components(args, training_args):
     train_dataset = SFTDataset(args.train_file, tokenizer, args.max_seq_length)
     data_collator = SFTDataCollator(tokenizer, args.max_seq_length)
 
+    print(training_args)
     # 初始化Trainer
     trainer = LoRATrainer(
         model=model,
