@@ -83,12 +83,16 @@ def setup_everything():
     parser.add_argument("--local_rank", type=int, default=0)
     args = parser.parse_args()
     train_args_file = args.train_args_file
+    
+    #here we get deepspeed config  before the args changed by the line#92 args, training_args = parser.parse_json_file(json_file=train_args_file)
+    with open(args.deepspeed,'r',encoding='utf-8') as fr:   # 这里就是向TrainingArgs中添加deepseed字段
+        training_args.deepspeed = json.load(fr)  # set trainingArgs中deepspeed=ds_config
+    
     # 读取训练的参数配置
     parser = HfArgumentParser((QLoRAArguments, TrainingArguments))
     # 解析得到自定义参数，以及自带参数
     args, training_args = parser.parse_json_file(json_file=train_args_file)
-    with open(args.deepspeed,'r',encoding='utf-8') as fr:   # 这里就是向TrainingArgs中添加deepseed字段
-        training_args.deepspeed = json.load(fr)  # set trainingArgs中deepspeed=ds_config
+    
     # 创建输出目录
     if not os.path.exists(training_args.output_dir):
         os.makedirs(training_args.output_dir,exist_ok=True)
