@@ -84,6 +84,8 @@ def find_all_linear_names(model):
 
     if 'lm_head' in lora_module_names:  # needed for 16-bit
         lora_module_names.remove('lm_head')
+    if  'output_layer' in lora_module_names:  # # needed for 16-bit ,chatglm2-6b use output_layer instead of lm_head
+        lora_module_names.remove('output_layer')
     return list(lora_module_names)
 
 
@@ -205,7 +207,7 @@ def init_components(args, training_args):
             #llm_int8_threshold=6.0,
             #llm_int8_has_fp16_weight=False,
         ),
-    )
+    ).cuda().half()
     # 加载tokenzier
     tokenizer = AutoTokenizer.from_pretrained(
         args.model_name_or_path,
@@ -237,7 +239,7 @@ def init_components(args, training_args):
     )
     model = get_peft_model(model, config)
     model.print_trainable_parameters()
-    model.config.torch_dtype = torch.float32
+    model.config.torch_dtype = torch.float16 #torch.float32
 
     # 查看模型种各种类型的参数的情况
     verify_model_dtype(model)
