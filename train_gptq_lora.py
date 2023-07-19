@@ -218,7 +218,7 @@ def init_components(args, training_args):
     n_gpus = torch.cuda.device_count()
     max_memory = f'{12000}MB'
     max_memory = {i: max_memory for i in range(n_gpus)}
-    
+    logger.info("GPTQ 模型加载开始")
     model = AutoGPTQForCausalLM.from_quantized(
         args.model_name_or_path,
         device_map='auto',
@@ -267,6 +267,7 @@ def init_components(args, training_args):
     #     bias="none",
     #     task_type="CAUSAL_LM",
     # )
+    logger.info("GPTQ 模型加载完成")
     config = GPTQLoraConfig(
         r=args.lora_rank,
         lora_alpha=args.lora_alpha,
@@ -290,7 +291,7 @@ def init_components(args, training_args):
     #         if hasattr(module, 'weight'):
     #             if args.bf16 and module.weight.dtype == torch.float32:
     #                 module = module.to(torch.bfloat16)
-
+    logger.info("GPTQ LORA模型加载完成")
     # 查看模型种各种类型的参数的情况
     verify_model_dtype(model)
 
