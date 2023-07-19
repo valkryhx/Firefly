@@ -319,6 +319,7 @@ def init_components(args, training_args):
 def main():
     # 进行一些配置和检查
     args, training_args = setup_everything()
+    print(f"args={args}")
     # 加载各种组件
     trainer = init_components(args, training_args)
     # 开始训练
