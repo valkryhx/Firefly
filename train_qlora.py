@@ -207,7 +207,7 @@ def init_components(args, training_args):
             #llm_int8_threshold=6.0,
             #llm_int8_has_fp16_weight=False,
         ),
-    ).cuda().half()
+    )
     # 加载tokenzier
     tokenizer = AutoTokenizer.from_pretrained(
         args.model_name_or_path,
