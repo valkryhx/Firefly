@@ -236,7 +236,7 @@ def init_components(args, training_args):
     setattr(model, 'is_parallelizable', True)
 
     # fp32 is really important during training!
-    model.config.torch_dtype=(torch.float32 if args.fp16 else (torch.bfloat16 if args.bf16 else torch.float32))
+    model.config.torch_dtype=torch.float16   #(torch.float32 if args.fp16 else (torch.bfloat16 if args.bf16 else torch.float32))
   
     # 加载tokenzier
     tokenizer = AutoTokenizer.from_pretrained(
@@ -280,16 +280,16 @@ def init_components(args, training_args):
     model.print_trainable_parameters()
     #model.config.torch_dtype = torch.float16 #torch.float32
 
-    for name, module in model.named_modules():
-        if isinstance(module, LoraLayer):
-            if args.bf16:
-                module = module.to(torch.bfloat16)
-        if 'norm' in name:
-            module = module.to(torch.float32)
-        if 'lm_head' in name or 'embed_tokens' in name:
-            if hasattr(module, 'weight'):
-                if args.bf16 and module.weight.dtype == torch.float32:
-                    module = module.to(torch.bfloat16)
+    # for name, module in model.named_modules():
+    #     if isinstance(module, LoraLayer):
+    #         if args.bf16:
+    #             module = module.to(torch.bfloat16)
+    #     if 'norm' in name:
+    #         module = module.to(torch.float32)
+    #     if 'lm_head' in name or 'embed_tokens' in name:
+    #         if hasattr(module, 'weight'):
+    #             if args.bf16 and module.weight.dtype == torch.float32:
+    #                 module = module.to(torch.bfloat16)
 
     # 查看模型种各种类型的参数的情况
     verify_model_dtype(model)
