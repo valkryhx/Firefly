@@ -1,6 +1,6 @@
 {
     "output_dir": "output/firefly-baichuan-7b",
-    "model_name_or_path": "K024/chatglm2-6b-int4g32",
+    "model_name_or_path": "fireballoon/baichuan-vicuna-chinese-7b-gptq",
     "train_file": "./data/dummy_data.jsonl",
     "num_train_epochs": 10,
     "per_device_train_batch_size": 1,
