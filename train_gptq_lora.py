@@ -81,7 +81,7 @@ def find_all_linear_names(model):
     找出所有全连接层，为所有全连接添加adapter
     """
     #cls = bnb.nn.Linear4bit
-    cls = GeneralQuantLinear if not(args.full_finetune) else torch.nn.Linear
+    cls = GeneralQuantLinear  #if not(args.full_finetune) else torch.nn.Linear
     lora_module_names = set()
     for name, module in model.named_modules():
         if isinstance(module, cls):
