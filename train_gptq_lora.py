@@ -255,7 +255,7 @@ def init_components(args, training_args):
 
     # casts all the non int8 modules to full precision (fp32) for stability
     model.enable_input_require_grads()
-    model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=training_args.gradient_checkpointing)
+    model = prepare_model_for_kbit_training(model, use_gradient_checkpointing=False)
     print(f'memory footprint of model: {model.get_memory_footprint()/(1024*1024*1024)} GB')
     # 找到所有需要插入adapter的全连接层
     target_modules = find_all_linear_names(model)
