@@ -215,10 +215,14 @@ def init_components(args, training_args):
     #     ),
     # )
 
+    n_gpus = torch.cuda.device_count()
+    max_memory = f'{12000_MB}MB'
+    max_memory = {i: max_memory for i in range(n_gpus)}
+    
     model = AutoGPTQForCausalLM.from_quantized(
         args.model_name_or_path,
         device_map='auto',
-        max_memory= 12000 ,  # MB ,max_memory,
+        max_memory= max_memory ,  # MB ,max_memory,
         trust_remote_code=True,
         inject_fused_attention = True,
         inject_fused_mlp = False,
