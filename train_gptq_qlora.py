@@ -263,7 +263,7 @@ def init_components(args, training_args):
     #     bias="none",
     #     task_type="CAUSAL_LM",
     # )
-     config = GPTQLoraConfig(
+    config = GPTQLoraConfig(
         r=args.lora_rank,
         lora_alpha=args.lora_alpha,
         target_modules=target_modules,
