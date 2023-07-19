@@ -238,7 +238,7 @@ def init_components(args, training_args):
 
     # fp32 is really important during training!
     model.config.torch_dtype=torch.float16   #(torch.float32 if args.fp16 else (torch.bfloat16 if args.bf16 else torch.float32))
-  
+    model.config.use_cache = False
     # 加载tokenzier
     tokenizer = AutoTokenizer.from_pretrained(
         args.model_name_or_path,
