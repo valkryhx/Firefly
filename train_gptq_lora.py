@@ -222,6 +222,7 @@ def init_components(args, training_args):
     model = AutoGPTQForCausalLM.from_quantized(
         args.model_name_or_path,
         device_map='auto',
+        low_cpu_mem_usage = True ,
         max_memory= max_memory ,  # MB ,max_memory,
         trust_remote_code=True,
         inject_fused_attention = True,
