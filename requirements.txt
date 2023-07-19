@@ -17,3 +17,4 @@ tensorboard
 sentencepiece==0.1.99
 torch==2.0.1
 transformers_stream_generator
+auto-gptq==0.3.0
