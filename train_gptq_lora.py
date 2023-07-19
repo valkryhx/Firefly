@@ -195,7 +195,7 @@ def init_components(args, training_args):
     "train_batch_size": 8 ,  
     "train_micro_batch_size_per_gpu":4
 }
-    dschf = HfDeepSpeedConfig(ds_config)
+    #dschf = HfDeepSpeedConfig(ds_config)
     # 加载模型
     # model = AutoModelForCausalLM.from_pretrained(
     #     args.model_name_or_path,
