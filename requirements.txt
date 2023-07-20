@@ -17,4 +17,4 @@ tensorboard
 sentencepiece==0.1.99
 torch==2.0.1
 transformers_stream_generator
-auto-gptq==0.3.0
+auto-gptq==0.3.0   # 支持lora 见项目examples分享
