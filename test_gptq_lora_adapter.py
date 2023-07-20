@@ -78,7 +78,7 @@ def main():
     )
 
     model = get_gptq_peft_model(model=model,model_id=args.peft_path,train_mode=False)
-  
+    print(model)
     text = input('User：')
     while True:
         text = text.strip()
