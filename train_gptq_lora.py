@@ -101,7 +101,7 @@ def setup_everything():
     parser.add_argument("--deepspeed", type=str, default="train_args/qlora/ds_zero2_config.json")
     parser.add_argument("--peft_path", type=str, default="output/lora_baichuan")
     parser.add_argument("--output_dir", type=str, default="output dir")
-    parser.add_argument("--ddp_find_unused_parameters", type=bool, default=False)
+    parser.add_argument("--ddp_find_unused_parameters2", type=bool, default=False)
     # local_rank 要加入argument ，因为使用deepspeed会传入这个参数 不加的话会报错 unrecognized argument
     # 参考我写的chatGLM-6B-QLoRA/train_qlora_deepspeed_zero.py
     parser.add_argument("--local_rank", type=int, default=0)
@@ -111,7 +111,7 @@ def setup_everything():
     peft_path = args.peft_path
     output_dir_overwrite = args.output_dir  #  命令行优先级高 下面会覆盖从json中读取的参数
     """find_unused_parameters 极其重要 必须为False才能DDP分布式训练"""
-    ddp_find_unused_parameters = args.ddp_find_unused_parameters
+    ddp_find_unused_parameters = args.ddp_find_unused_parameters2
     logger.info(f"mark 0   ddp_find_unused_parameters = {ddp_find_unused_parameters}")
     #here we get deepspeed config  before the args changed by the line#92 args, training_args = parser.parse_json_file(json_file=train_args_file)
     with open(args.deepspeed,'r',encoding='utf-8') as fr:   # 这里就是向TrainingArgs中添加deepseed字段
