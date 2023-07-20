@@ -122,7 +122,9 @@ def setup_everything():
     args, training_args = parser.parse_json_file(json_file=train_args_file)
     training_args.deepspeed = training_args_deepspeed
     training_args.peft_path = peft_path
+    logger.info(f"mark 1   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
     training_args.ddp_find_unused_parameters  = ddp_find_unused_parameters
+    logger.info(f"mark 2   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
     # 创建输出目录
     training_args.output_dir = output_dir_overwrite #  命令行优先级高 覆盖从json中读取的参数
     if not os.path.exists(training_args.output_dir):
@@ -131,6 +133,7 @@ def setup_everything():
     # logger.info("train_args:{}".format(training_args))
     # 设置随机种子
     set_seed(training_args.seed)
+    logger.info(f"mark 3   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
     return args, training_args
 
 
