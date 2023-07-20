@@ -46,6 +46,7 @@ import torch
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--peft_path", type=str, default='output/firefly-baichuan-7b/final/', help="")
+    parser.add_argument("--use_safetensors", type=bool, default=False, help="If the original GPTQ model is saved in .safetensors format ,then set this to True")
     args = parser.parse_args()
     # model_name = 'YeungNLP/firefly-baichuan-7b-qlora-sft-merge'
     model_name = 'TheBloke/baichuan-7B-GPTQ'
@@ -68,7 +69,7 @@ def main():
         use_triton=True,
         warmup_triton=False,
         trainable=False,
-        use_safetensors = True
+        use_safetensors = use_safetensors ,
     )
     tokenizer = AutoTokenizer.from_pretrained(
         model_name,
