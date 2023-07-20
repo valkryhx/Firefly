@@ -85,7 +85,8 @@ trainer = transformers.Trainer(
         output_dir="outputs",
         optim="paged_adamw_8bit",
         evaluation_strategy='steps',
-        eval_steps=1
+        eval_steps=1,
+        report_to="tensorboard"
     ),
     data_collator=transformers.DataCollatorForLanguageModeling(tokenizer, mlm=False),
 )
