@@ -101,7 +101,7 @@ def setup_everything():
     parser.add_argument("--deepspeed", type=str, default="train_args/qlora/ds_zero2_config.json")
     parser.add_argument("--peft_path", type=str, default="output/lora_baichuan")
     parser.add_argument("--output_dir", type=str, default="output dir")
-    parser.add_argument("--find_unused_parameters", type=bool, default=False)
+    parser.add_argument("--ddp_find_unused_parameters", type=bool, default=False)
     # local_rank 要加入argument ，因为使用deepspeed会传入这个参数 不加的话会报错 unrecognized argument
     # 参考我写的chatGLM-6B-QLoRA/train_qlora_deepspeed_zero.py
     parser.add_argument("--local_rank", type=int, default=0)
@@ -122,7 +122,7 @@ def setup_everything():
     args, training_args = parser.parse_json_file(json_file=train_args_file)
     training_args.deepspeed = training_args_deepspeed
     training_args.peft_path = peft_path
-    training_args.find_unused_parameters  = find_unused_parameters
+    training_args.ddp_find_unused_parameters  = ddp_find_unused_parameters
     # 创建输出目录
     training_args.output_dir = output_dir_overwrite #  命令行优先级高 覆盖从json中读取的参数
     if not os.path.exists(training_args.output_dir):
