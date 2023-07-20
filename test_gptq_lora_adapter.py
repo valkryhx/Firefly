@@ -47,7 +47,7 @@ def main():
     parser.add_argument("--peft_path", type=str, default='output/firefly-baichuan-7b/final/', help="")
     args = parser.parse_args()
     # model_name = 'YeungNLP/firefly-baichuan-7b-qlora-sft-merge'
-    model_name = TheBloke/baichuan-7B-GPTQ'
+    model_name = 'TheBloke/baichuan-7B-GPTQ'
     # model_name = 'YeungNLP/firefly-bloom-7b1-qlora-sft-merge'
 
     max_new_tokens = 500
