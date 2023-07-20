@@ -273,7 +273,7 @@ def init_components(args, training_args):
     config = GPTQLoraConfig(
         r=args.lora_rank,
         lora_alpha=args.lora_alpha,
-        target_modules=target_modules,
+       target_modules=["W_pack", "o_proj"],#target_modules,
         lora_dropout=args.lora_dropout,
         bias="none",
         task_type="CAUSAL_LM",
