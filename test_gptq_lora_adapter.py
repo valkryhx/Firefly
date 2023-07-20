@@ -93,7 +93,7 @@ def main():
         outputs = outputs.tolist()[0][len(input_ids[0]):]
         response = tokenizer.decode(outputs)
         response = response.strip().replace(text, "").replace('</s>', "").replace('<s>', "").strip()
-        print("Firefly：{}".format(response))
+        print("Bot：{}".format(response))
         text = input('User：')
 
 
