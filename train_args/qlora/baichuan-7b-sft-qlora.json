@@ -25,7 +25,7 @@
     "report_to": "tensorboard",
     "dataloader_num_workers": 0,
     "save_strategy": "steps",
-    "evaluation_strategy": "steps",
+    "evaluation_strategy": "no",
     "weight_decay": 1e-4,
     "max_grad_norm": 0.3,
     "remove_unused_columns": false,
