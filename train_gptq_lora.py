@@ -102,6 +102,7 @@ def setup_everything():
     # local_rank 要加入argument ，因为使用deepspeed会传入这个参数 不加的话会报错 unrecognized argument
     # 参考我写的chatGLM-6B-QLoRA/train_qlora_deepspeed_zero.py
     parser.add_argument("--local_rank", type=int, default=0)
+    #parser.add_argumente("--use_safetensors",type=bool,default=True)
     args = parser.parse_args()
     train_args_file = args.train_args_file
     
@@ -230,7 +231,7 @@ def init_components(args, training_args):
         use_triton=True,
         warmup_triton=False,
         trainable=True,
-        use_safetensors = True
+        use_safetensors = False #True
     )
     model.model.quantize_config = model.quantize_config
     model.train()
