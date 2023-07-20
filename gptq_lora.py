@@ -51,14 +51,14 @@ if not tokenizer.pad_token_id:
 quantize_config = BaseQuantizeConfig.from_pretrained(model_name_or_path)
 model = AutoGPTQForCausalLM.from_quantized(
     model_name_or_path,
-    model_basename=model_basename,
-    use_safetensors=args.use_safetensors,
+    #model_basename=model_basename,
+    #use_safetensors=args.use_safetensors,
     use_triton=args.use_triton,
     device="cuda:0",
     trainable=True,
     inject_fused_attention=True,
     inject_fused_mlp=False,
-    quantize_config=quantize_config
+    #quantize_config=quantize_config
 )
 model.gradient_checkpointing_enable()
 model = prepare_model_for_kbit_training(model)
