@@ -112,7 +112,7 @@ def setup_everything():
     output_dir_overwrite = args.output_dir  #  命令行优先级高 下面会覆盖从json中读取的参数
     """find_unused_parameters 极其重要 必须为False才能DDP分布式训练"""
     ddp_find_unused_parameters = args.ddp_find_unused_parameters2
-    logger.info(f"mark 0   ddp_find_unused_parameters = {ddp_find_unused_parameters}")
+    logger.info(f"mark 0   ddp_find_unused_parameters = {2234}")
     #here we get deepspeed config  before the args changed by the line#92 args, training_args = parser.parse_json_file(json_file=train_args_file)
     with open(args.deepspeed,'r',encoding='utf-8') as fr:   # 这里就是向TrainingArgs中添加deepseed字段
         training_args_deepspeed = json.load(fr)  # set trainingArgs中deepspeed=ds_config
