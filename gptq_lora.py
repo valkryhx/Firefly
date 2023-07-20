@@ -24,6 +24,23 @@ parser.add_argument('--use_triton', action="store_true", help='Use Triton for in
 parser.add_argument('--bits', type=int, default=4, help='Specify GPTQ bits. Only needed if no quantize_config.json is provided')
 parser.add_argument('--group_size', type=int, default=128, help='Specify GPTQ group_size. Only needed if no quantize_config.json is provided')
 parser.add_argument('--desc_act', action="store_true", help='Specify GPTQ desc_act. Only needed if no quantize_config.json is provided')
+parser.add_argument('--output_dir', type=str, default="output_gptq_lora", help='output dir to store the lora adapter model files.')
+parser.add_argument("--local_rank", type=int, default=0)
+parser.add_argument("--save_total_limit" , type=int ,default=1)
+parser.add_argument("--load_best_model_at_end",type=bool,default=True)
+parser.add_argument("--per_device_train_batch_size",type=int,default=1)
+parser.add_argument("--per_device_eval_batch_size",type=int,default=1)
+parser.add_argument("--gradient_accumulation_steps",type=int,default=1)
+parser.add_argument("--learning_rate",type=float,default=2e-5)
+parser.add_argument("--num_train_epochs",type=float,default=1.0)
+
+parser.add_argument("--warmup_ratio",type=float,default =0.1)
+parser.add_argument("--logging_steps",type=int,default=20)
+parser.add_argument("--save_strategy",type=str,default="steps")
+parser.add_argument("--save_steps",type=int,default=40)
+parser.add_argument("--evaluation_strategy",type=str,default="steps")
+parser.add_argument("--eval_steps",type=int,default=40)
+
 args = parser.parse_args()
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -76,21 +93,28 @@ trainer = transformers.Trainer(
     train_dataset=data["train"],
     eval_dataset=data['test'],
     args=transformers.TrainingArguments(
-        per_device_train_batch_size=1,
-        gradient_accumulation_steps=4,
+        save_total_limit=args.save_total_limit ,
+        load_best_model_at_end=args.load_best_model_at_end ,
+        per_device_train_batch_size=args.per_device_train_batch_size,
+        per_device_eval_batch_size=args.per_device_eval_batch_size ,
+        gradient_accumulation_steps=args.gradient_accumulation_steps ,
+        num_train_epochs =args.num_train_epochs ,
+        warmup_ratio = args.warmup_ratio,
         warmup_steps=2,
-        max_steps=3,
-        learning_rate=2e-2,
+        #max_steps=3,
+        learning_rate=args.learning_rate,
         fp16=True,
-        logging_steps=1,
-        output_dir="outputs",
+        logging_steps=args.logging_steps ,
+        save_strategy =args.save_strategy ,
+        save_steps=args.save_steps,
+        output_dir=args.output_dir,
         optim="paged_adamw_8bit",
-        evaluation_strategy='steps',
-        eval_steps=1,
+        evaluation_strategy=args.evaluation_strategy,
+        eval_steps=args.eval_steps,
         report_to="tensorboard"
     ),
     data_collator=transformers.DataCollatorForLanguageModeling(tokenizer, mlm=False),
 )
 model.config.use_cache = False
 trainer.train()
-trainer.model.save_pretrained(hf_train_args.output_dir)
+trainer.model.save_pretrained(args.output_dir)
