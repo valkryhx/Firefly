@@ -219,7 +219,7 @@ def init_components(args, training_args):
     n_gpus = torch.cuda.device_count()
     max_memory = f'{12000}MB'
     max_memory = {i: max_memory for i in range(n_gpus)}
-    logger.info("GPTQ 模型加载开始")
+    logger.info(f"GPTQ 模型加载开始: {args.model_name_or_path}")
     model = AutoGPTQForCausalLM.from_quantized(
         args.model_name_or_path,
         device_map='auto',
