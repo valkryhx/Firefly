@@ -107,6 +107,7 @@ def setup_everything():
     #parser.add_argumente("--use_safetensors",type=bool,default=True)
     args = parser.parse_args()
     train_args_file = args.train_args_file
+    peft_path = args.peft_path
     output_dir_overwrite = args.output_dir  #  命令行优先级高 下面会覆盖从json中读取的参数
     #here we get deepspeed config  before the args changed by the line#92 args, training_args = parser.parse_json_file(json_file=train_args_file)
     with open(args.deepspeed,'r',encoding='utf-8') as fr:   # 这里就是向TrainingArgs中添加deepseed字段
@@ -117,6 +118,7 @@ def setup_everything():
     # 解析得到自定义参数，以及自带参数
     args, training_args = parser.parse_json_file(json_file=train_args_file)
     training_args.deepspeed = training_args_deepspeed
+    training_args.peft_path = peft_path
     # 创建输出目录
     training_args.output_dir = output_dir_overwrite #  命令行优先级高 覆盖从json中读取的参数
     if not os.path.exists(training_args.output_dir):
@@ -286,7 +288,7 @@ def init_components(args, training_args):
     model = get_gptq_peft_model(model, config, auto_find_all_linears=False, train_mode=True)
 
     # 
-    peft_path = args.peft_path
+    peft_path = training_args.peft_path
     if peft_path is not None:
         checkpoint_name = os.path.join(peft_path, 'pytorch_model.bin')
         if not os.path.exists(checkpoint_name):
