@@ -99,6 +99,7 @@ def setup_everything():
     parser = argparse.ArgumentParser()
     parser.add_argument("--train_args_file", type=str, default='train_args/qlora/baichuan-sft-qlora.json', help="")
     parser.add_argument("--deepspeed", type=str, default="train_args/qlora/ds_zero2_config.json")
+    parser.add_argument("--peft_path", type=str, default="output/lora_baichuan")
     # local_rank 要加入argument ，因为使用deepspeed会传入这个参数 不加的话会报错 unrecognized argument
     # 参考我写的chatGLM-6B-QLoRA/train_qlora_deepspeed_zero.py
     parser.add_argument("--local_rank", type=int, default=0)
@@ -281,6 +282,23 @@ def init_components(args, training_args):
     )
     #model = get_peft_model(model, config)
     model = get_gptq_peft_model(model, config, auto_find_all_linears=False, train_mode=True)
+
+    # 
+    peft_path = args.peft_path
+    if peft_path is not None:
+        checkpoint_name = os.path.join(peft_path, 'pytorch_model.bin')
+        if not os.path.exists(checkpoint_name):
+            checkpoint_name = os.path.join(
+                peft_path, 'adapter_model.bin'
+            )
+            resume_from_checkpoint = False   #注意这个resume_from_checkpoint 本来是trainer.train（）的参数 用于指示是否继续上一次的训练 取值是True/False 本来不是给peft用的 这里原始的代码是为了兼容 写的有点儿乱
+        if os.path.exists(checkpoint_name):
+            logger.info(f'Continue training  from {checkpoint_name}')
+            adapters_weights = torch.load(checkpoint_name)
+            set_peft_model_state_dict(model, adapters_weights)
+        else:
+            logger.info(f'Checkpoint {checkpoint_name} not found')
+    
     model.print_trainable_parameters()
     #model.config.torch_dtype = torch.float16 #torch.float32
 
