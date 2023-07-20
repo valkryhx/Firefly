@@ -1,6 +1,6 @@
 {
     "output_dir": "output/firefly-baichuan-7b",
-    "model_name_or_path": "seonglae/opt-125m-4bit-gptq",
+    "model_name_or_path": "yfshi123/baichuan-vicuna-chinese-7b-gptq-128g",
     "train_file": "./data/dummy_data.jsonl",
     "num_train_epochs": 10,
     "per_device_train_batch_size": 1,
