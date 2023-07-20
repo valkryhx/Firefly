@@ -331,7 +331,9 @@ def init_components(args, training_args):
     train_dataset = SFTDataset(args.train_file, tokenizer, args.max_seq_length)
     data_collator = SFTDataCollator(tokenizer, args.max_seq_length)
 
-    print(training_args)
+    logger.info(training_args)
+    training_args.ddp_find_unused_parameters  = False
+    logger.info(f"after change training_args.ddp_find_unused_parameters  = {training_args.ddp_find_unused_parameters }")
     # 初始化Trainer
     trainer = LoRATrainer(
         model=model,
@@ -350,7 +352,7 @@ def main():
     myargs, training_args = setup_everything()
     logger.info(f"myargs={myargs}")
     # 加载各种组件
-    
+    logger.info(f"original training_args.ddp_find_unused_parameters  = {training_args.ddp_find_unused_parameters }")
     trainer = init_components(myargs, training_args)
     # 开始训练
     logger.info("*** starting training ***")
