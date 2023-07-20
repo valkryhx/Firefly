@@ -47,9 +47,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--peft_path", type=str, default='output/firefly-baichuan-7b/final/', help="")
     parser.add_argument("--use_safetensors", type=bool, default=False, help="If the original GPTQ model is saved in .safetensors format ,then set this to True")
+    parser.add_argument("--base_model_name_or_path" ,type=str, default="fireballoon/baichuan-vicuna-chinese-7b-gptq")
     args = parser.parse_args()
     # model_name = 'YeungNLP/firefly-baichuan-7b-qlora-sft-merge'
-    model_name = 'TheBloke/baichuan-7B-GPTQ'
+    model_name =  args.base_model_name_or_path  #'TheBloke/baichuan-7B-GPTQ'
     # model_name = 'YeungNLP/firefly-bloom-7b1-qlora-sft-merge'
 
     max_new_tokens = 500
