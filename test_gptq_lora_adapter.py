@@ -44,6 +44,7 @@ import torch
 
 
 def main():
+    parser = argparse.ArgumentParser()
     parser.add_argument("--peft_path", type=str, default='output/firefly-baichuan-7b/final/', help="")
     args = parser.parse_args()
     # model_name = 'YeungNLP/firefly-baichuan-7b-qlora-sft-merge'
