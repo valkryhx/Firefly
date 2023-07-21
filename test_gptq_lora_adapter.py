@@ -52,7 +52,7 @@ def main():
     # model_name = 'YeungNLP/firefly-baichuan-7b-qlora-sft-merge'
     #model_name = "TheBloke/baichuan-7B-GPTQ"     #'TheBloke/baichuan-7B-GPTQ'
     model_name = "fireballoon/baichuan-vicuna-chinese-7b-gptq"
-    logger.info(f"args.use_safetensors= {args.use_safetensors}")
+    logger.info(f"args.use_safetensors= {args.use_safetensors} , type(args.use_safetensors)")
     max_new_tokens = 500
     top_p = 0.9
     temperature = 0.35
