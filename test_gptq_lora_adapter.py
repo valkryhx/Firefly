@@ -52,7 +52,7 @@ def main():
     # model_name = 'YeungNLP/firefly-baichuan-7b-qlora-sft-merge'
     model_name =  args.base_model_name_or_path  #'TheBloke/baichuan-7B-GPTQ'
     # model_name = 'YeungNLP/firefly-bloom-7b1-qlora-sft-merge'
-
+    logger.info(f"args.use_safetensors= {args.use_safetensors}")
     max_new_tokens = 500
     top_p = 0.9
     temperature = 0.35
@@ -70,7 +70,7 @@ def main():
         use_triton=True,
         warmup_triton=False,
         trainable=False,
-        use_safetensors = use_safetensors ,
+        use_safetensors = args.use_safetensors ,
     )
     tokenizer = AutoTokenizer.from_pretrained(
         model_name,
