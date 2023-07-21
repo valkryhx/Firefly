@@ -82,7 +82,7 @@ def main():
         use_fast=False if model.config.model_type == 'llama' else True
     )
 
-    #model = get_gptq_peft_model(model=model,model_id=args.peft_path,train_mode=False)
+    model = get_gptq_peft_model(model=model,model_id=args.peft_path,train_mode=False)
     print(model)
     text = input('User：')
     while True:
