@@ -70,7 +70,7 @@ def main():
         use_triton=True,
         warmup_triton=False,
         trainable=False,
-        use_safetensors = False,
+        use_safetensors = args.use_safetensors,
     )
     tokenizer = AutoTokenizer.from_pretrained(
         model_name,
