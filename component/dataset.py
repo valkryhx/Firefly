@@ -1,19 +1,28 @@
 import json
 from loguru import logger
 from torch.utils.data import Dataset
-
+from glob import glob
 
 class SFTDataset(Dataset):
-    def __init__(self, file, tokenizer, max_seq_length):
+    def __init__(self, data_path, tokenizer, max_seq_length):
         self.tokenizer = tokenizer
         self.bos_token_id = tokenizer.bos_token_id
         self.eos_token_id = tokenizer.eos_token_id
         self.eos_token = tokenizer.eos_token
         self.bos_token = tokenizer.bos_token
         self.max_seq_length = max_seq_length
-        logger.info('Loading data: {}'.format(file))
-        with open(file, 'r', encoding='utf8') as f:
-            data_list = f.readlines()
+
+        if not (data_path is not None and os.path.exists(data_path)):
+            raise ValueError("data_path requires a directory pointing to   jsons/jsonls")
+        """https://github.com/shibing624/MedicalGPT/blob/main/supervised_finetuning.py#L383"""
+            data_files_list = glob(f'{data_path}/**/*.json', recursive=True) + glob(
+                f'{data_path}/**/*.jsonl', recursive=True)
+        logger.info(f"data files: {', '.join(data_files_list)}")
+
+        #logger.info('Loading data: {}'.format(file))
+        for file_name in data_file_list :
+            with open(file, 'r', encoding='utf8') as f:
+                data_list += f.readlines()
         logger.info("there are {} data in dataset".format(len(data_list)))
         self.data_list = data_list
 
@@ -23,7 +32,7 @@ class SFTDataset(Dataset):
     def __getitem__(self, index):
         # 每条数据格式为: <s>input1</s>target1</s>input2</s>target2</s>...
         data = self.data_list[index]
-        data = json.loads(data)
+        data = json.loads(data) #注意文件中每行为json 这是对的
         conversation = data['conversation']
 
         # 收集多轮对话
