@@ -122,7 +122,7 @@ def setup_everything():
         
     # 读取训练的参数配置
     parser = HfArgumentParser((QLoRAArguments, TrainingArguments))
-    # 解析得到自定义参数，并且用上面由命令行传入的参数替换json文件中的自带参数 因为命令行参数优先级高
+    # 解析得到自定义参数，并且用上面由命令行传入的参数新增或者替换json文件中的自带参数 因为命令行参数优先级高
     lora_args, training_args = parser.parse_json_file(json_file=train_args_file)
     training_args.deepspeed = training_args_deepspeed
     training_args.peft_path = peft_path
