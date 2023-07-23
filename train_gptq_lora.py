@@ -244,7 +244,7 @@ def init_components(args, training_args):
     max_memory = f'{12000}MB'
     max_memory = {i: max_memory for i in range(n_gpus)}
     logger.info(f"GPTQ 模型加载开始: {args.model_name_or_path}")
-    logger.info(f"use_safetensors: {training_args.use_safetensors}  ,type(training_args.use_safetensors)")
+    logger.info(f"use_safetensors: {training_args.use_safetensors}  ,{type(training_args.use_safetensors)}")
     model = AutoGPTQForCausalLM.from_quantized(
         args.model_name_or_path,
         device_map='auto',
