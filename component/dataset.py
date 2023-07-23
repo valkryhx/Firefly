@@ -22,9 +22,13 @@ class SFTDataset(Dataset):
         data_list = []
         for file_name in data_files_list :
             with open(file_name, 'r', encoding='utf8') as f:
+                logger.info(f"f.readlines() =type(f.readlines())")
                 data_list.extend( f.readlines() )
+                
         logger.info("there are {} data in dataset".format(len(data_list)))
+        logger.info(f"data_list=f{data_list}")
         self.data_list = data_list
+        raise Error(123)
 
     def __len__(self):
         return len(self.data_list)
