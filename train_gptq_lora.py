@@ -144,6 +144,8 @@ def setup_everything():
     # 设置随机种子
     set_seed(training_args.seed)
     logger.info(f"mark 3   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
+    logger.info(f"【lora_args】={lora_args}")
+    logger.info(f"【training_args】={training_args}")
     return lora_args, training_args
 
 
