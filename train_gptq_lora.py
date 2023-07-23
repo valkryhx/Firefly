@@ -106,7 +106,7 @@ def setup_everything():
     # local_rank 要加入argument ，因为使用deepspeed会传入这个参数 不加的话会报错 unrecognized argument
     # 参考我写的chatGLM-6B-QLoRA/train_qlora_deepspeed_zero.py
     parser.add_argument("--local_rank", type=int, default=0)
-    parser.add_argumente("--use_safetensors",type=str,default=True)   #不能用type=bool  否则不能用 --xxx Treu传值。type=bool 只能  --xx传值  提示性不想 参考 https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse 
+    parser.add_argument("--use_safetensors",type=str,default=True)   #不能用type=bool  否则不能用 --xxx Treu传值。type=bool 只能  --xx传值  提示性不想 参考 https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse 
     parser.add_argument("--model_name_or_path",type=str,default="fireballoon/baichuan-vicuna-chinese-7b-gptq")
     args = parser.parse_args()
     train_args_file = args.train_args_file
