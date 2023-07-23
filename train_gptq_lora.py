@@ -136,7 +136,7 @@ def setup_everything():
     logger.info(f"mark 1   training_args.use_safetensors = {training_args.use_safetensors}")
     logger.info(f"mark 1   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters},type={type(training_args.ddp_find_unused_parameters)}")
     training_args.ddp_find_unused_parameters  = ddp_find_unused_parameters
-    logger.info(f"mark 2   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters},type={type(traing_args.ddp_find_unused_parameters)}")
+    logger.info(f"mark 2   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters},type={type(training_args.ddp_find_unused_parameters)}")
     # 创建输出目录
     training_args.output_dir = output_dir_overwrite #  命令行优先级高 覆盖从json中读取的参数
     if not os.path.exists(training_args.output_dir):
