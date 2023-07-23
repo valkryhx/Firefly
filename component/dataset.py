@@ -26,10 +26,10 @@ class SFTDataset(Dataset):
                 data_list.extend( f.readlines() )
                 
         logger.info("there are {} data in dataset".format(len(data_list)))
-        for item in data_list:
-            print(item)
-        self.data_list = data_list
-        raise Error(123)
+        #for item in data_list:
+        #    print(item)
+        #self.data_list = data_list
+        #raise Error(123)
 
     def __len__(self):
         return len(self.data_list)
