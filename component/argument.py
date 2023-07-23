@@ -8,7 +8,7 @@ class CustomizedArguments:
     一些自定义参数
     """
     max_seq_length: int = field(metadata={"help": "输入最大长度"})
-    train_file: str = field(metadata={"help": "训练集"})
+    train_file: str = field(metadata={"help": "训练集的目录 ，目录中可以包含多个json文件"})
     model_name_or_path: str = field(metadata={"help": "预训练权重路径"})
     eval_file: Optional[str] = field(default="", metadata={"help": "the file of training data"})
 
