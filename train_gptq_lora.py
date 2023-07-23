@@ -106,10 +106,11 @@ def setup_everything():
     # local_rank 要加入argument ，因为使用deepspeed会传入这个参数 不加的话会报错 unrecognized argument
     # 参考我写的chatGLM-6B-QLoRA/train_qlora_deepspeed_zero.py
     parser.add_argument("--local_rank", type=int, default=0)
-    #parser.add_argumente("--use_safetensors",type=bool,default=True)
+    parser.add_argumente("--use_safetensors",type=str,default=True)   #不能用type=bool  否则不能用 --xxx Treu传值。type=bool 只能  --xx传值  提示性不想 参考 https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse 
     args = parser.parse_args()
     train_args_file = args.train_args_file
     peft_path = args.peft_path
+    use_safetensors = args.use_safetensors  # 
     output_dir_overwrite = args.output_dir  #  命令行优先级高 下面会覆盖从json中读取的参数
     """find_unused_parameters 极其重要 必须为False才能DDP分布式训练"""
     ddp_find_unused_parameters = args.ddp_find_unused_parameters
@@ -121,10 +122,12 @@ def setup_everything():
         
     # 读取训练的参数配置
     parser = HfArgumentParser((QLoRAArguments, TrainingArguments))
-    # 解析得到自定义参数，以及自带参数
-    args, training_args = parser.parse_json_file(json_file=train_args_file)
+    # 解析得到自定义参数，并且用上面由命令行传入的参数替换json文件中的自带参数 因为命令行参数优先级高
+    lora_args, training_args = parser.parse_json_file(json_file=train_args_file)
     training_args.deepspeed = training_args_deepspeed
     training_args.peft_path = peft_path
+    training_args.use_safetensors = use_safetensors
+    logger.info(f"mark 1   training_args.use_safetensors = {training_args.use_safetensors}")
     logger.info(f"mark 1   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
     training_args.ddp_find_unused_parameters  = ddp_find_unused_parameters
     logger.info(f"mark 2   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
@@ -137,7 +140,7 @@ def setup_everything():
     # 设置随机种子
     set_seed(training_args.seed)
     logger.info(f"mark 3   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
-    return args, training_args
+    return lora_args, training_args
 
 
 def init_components(args, training_args):
@@ -246,7 +249,7 @@ def init_components(args, training_args):
         use_triton=True,
         warmup_triton=False,
         trainable=True,
-        use_safetensors = False #True
+        use_safetensors = training_args.use_safetensors #False #True
     )
     model.model.quantize_config = model.quantize_config
     model.train()
