@@ -2,7 +2,7 @@ import json
 from loguru import logger
 from torch.utils.data import Dataset
 from glob import glob
-
+import os
 class SFTDataset(Dataset):
     def __init__(self, data_path, tokenizer, max_seq_length):
         self.tokenizer = tokenizer
