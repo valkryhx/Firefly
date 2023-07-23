@@ -1,6 +1,6 @@
 {
     "output_dir": "output/firefly-baichuan-7b",
-    "model_name_or_path": "fireballoon/baichuan-vicuna-chinese-7b-gptq",
+    "model_name_or_path":"TheBloke/baichuan-7B-GPTQ",
     "train_file": "./data/dummy_data_2.jsonl",
     "num_train_epochs": 20,
     "per_device_train_batch_size": 4,
