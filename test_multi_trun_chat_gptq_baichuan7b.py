@@ -41,6 +41,7 @@ import torch
 
 
 def main():
+    parser = argparse.ArgumentParser()
     parser.add_argument("--peft_path", type=str, default='output/firefly-baichuan-7b/final/', help="")
     """这个type=bool 的值 只要写进python --use_safetensors A 无论A是什么都将让use_safetensors=True 这里也不能用type=str
        所以这里既然已经默认use_safetensors=False 那在传参时就不要传入这个参数了！很奇怪 
