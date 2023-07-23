@@ -23,7 +23,7 @@ class SFTDataset(Dataset):
         for file_name in data_files_list :
             with open(file_name, 'r', encoding='utf8') as f:
                 data_list.append( f.readlines() )
-         logger.info("there are {} data in dataset".format(len(data_list)))
+        logger.info("there are {} data in dataset".format(len(data_list)))
         self.data_list = data_list
 
     def __len__(self):
