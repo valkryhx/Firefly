@@ -105,7 +105,7 @@ def setup_everything():
     parser.add_argument("--ddp_find_unused_parameters",type=eval, 
                       choices=[True, False], 
                       default='True')  
-    parser.add_argument("--use_safetensors", type=str, default=True)
+    #parser.add_argument("--use_safetensors", type=str, default=True)
     #parser.add_argument('--ddp_find_unused_parameters', default=False, action=argparse.BooleanOptionalAction)  # 这种写法虽然更正常 但是好像不能满足 --ddp True/False的明确输入要求
     # local_rank 要加入argument ，因为使用deepspeed会传入这个参数 不加的话会报错 unrecognized argument
     # 参考我写的chatGLM-6B-QLoRA/train_qlora_deepspeed_zero.py
