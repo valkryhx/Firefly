@@ -26,7 +26,8 @@ class SFTDataset(Dataset):
                 data_list.extend( f.readlines() )
                 
         logger.info("there are {} data in dataset".format(len(data_list)))
-        logger.info(f"data_list=f{data_list}")
+        for item in data_list:
+            print(item)
         self.data_list = data_list
         raise Error(123)
 
