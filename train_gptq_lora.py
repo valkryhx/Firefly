@@ -102,13 +102,14 @@ def setup_everything():
     parser.add_argument("--peft_path", type=str, default="output/lora_baichuan")
     parser.add_argument("--output_dir", type=str, default="output dir")
     parser.add_argument("--ddp_find_unused_parameters", type=str, default=False)
+    parser.add_argument("--use_safetensors", type=str, default=True)
     #parser.add_argument('--ddp_find_unused_parameters', default=False, action=argparse.BooleanOptionalAction)  # 这种写法虽然更正常 但是好像不能满足 --ddp True/False的明确输入要求
     # local_rank 要加入argument ，因为使用deepspeed会传入这个参数 不加的话会报错 unrecognized argument
     # 参考我写的chatGLM-6B-QLoRA/train_qlora_deepspeed_zero.py
     parser.add_argument("--local_rank", type=int, default=0)
-    parser.add_argument("--use_safetensors",type=eval, 
-                      choices=[True, False], 
-                      default='True')   #不能用type=bool  否则不能用 --xxx Treu传值。type=bool 只能  --xx传值  提示性不想 参考 https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse 
+    #parser.add_argument("--use_safetensors",type=eval, 
+    #                  choices=[True, False], 
+    #                  default='True')   #不能用type=bool  否则不能用 --xxx Treu传值。type=bool 只能  --xx传值  提示性不想 参考 https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse 
     parser.add_argument("--model_name_or_path",type=str,default="fireballoon/baichuan-vicuna-chinese-7b-gptq")
     args = parser.parse_args()
     train_args_file = args.train_args_file
@@ -119,6 +120,7 @@ def setup_everything():
     """find_unused_parameters 极其重要 必须为False才能DDP分布式训练"""
     ddp_find_unused_parameters = args.ddp_find_unused_parameters
     logger.info(f"args.ddp_find_unused_parameters={args.ddp_find_unused_parameters},type={type(args.ddp_find_unused_parameters)}")
+    logger.info(f"args.use_safetensors={args.use_safetensors},type={type(args.use_safetensors)}")
     logger.info(f"mark 0   ddp_find_unused_parameters = {ddp_find_unused_parameters}  ,type={type(ddp_find_unused_parameters)}")
     #here we get deepspeed config  before the args changed by the line#92 args, training_args = parser.parse_json_file(json_file=train_args_file)
     with open(args.deepspeed,'r',encoding='utf-8') as fr:   # 这里就是向TrainingArgs中添加deepseed字段
@@ -133,7 +135,7 @@ def setup_everything():
     training_args.use_safetensors = use_safetensors
     lora_args.model_name_or_path =model_name_or_path
     logger.info(f"mark 1   lora_args.model_name_or_path = {lora_args.model_name_or_path}")
-    logger.info(f"mark 1   training_args.use_safetensors = {training_args.use_safetensors}")
+    logger.info(f"mark 1   training_args.use_safetensors = {training_args.use_safetensors}  ,type(training_args.use_safetensors)")
     logger.info(f"mark 1   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters},type={type(training_args.ddp_find_unused_parameters)}")
     training_args.ddp_find_unused_parameters  = ddp_find_unused_parameters
     logger.info(f"mark 2   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters},type={type(training_args.ddp_find_unused_parameters)}")
