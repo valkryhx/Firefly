@@ -15,8 +15,7 @@ class SFTDataset(Dataset):
         if not (data_path is not None and os.path.exists(data_path)):
             raise ValueError("data_path requires a directory pointing to   jsons/jsonls")
         """https://github.com/shibing624/MedicalGPT/blob/main/supervised_finetuning.py#L383"""
-            data_files_list = glob(f'{data_path}/**/*.json', recursive=True) + glob(
-                f'{data_path}/**/*.jsonl', recursive=True)
+        data_files_list = glob(f'{data_path}/**/*.json', recursive=True) + glob(f'{data_path}/**/*.jsonl', recursive=True)
         logger.info(f"data files: {', '.join(data_files_list)}")
 
         #logger.info('Loading data: {}'.format(file))
