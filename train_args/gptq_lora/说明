@@ -1,0 +1,1 @@
+"lr_scheduler_type": "constant_with_warmup",  也可以设置成cosine  linear
