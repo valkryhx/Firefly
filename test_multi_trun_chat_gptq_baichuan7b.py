@@ -95,16 +95,20 @@ def main():
         user_input = '{}</s>'.format(user_input)
         user_input_ids = tokenizer(user_input, return_tensors="pt", add_special_tokens=False).input_ids
         history_token_ids = torch.concat((history_token_ids, user_input_ids), dim=1)
+        print("step 0")
         model_input_ids = history_token_ids[:, -history_max_len:].to(device)
+        print("step 1")
         with torch.no_grad():
             outputs = model.generate(
                 input_ids=model_input_ids, max_new_tokens=max_new_tokens, do_sample=True, top_p=top_p,
                 temperature=temperature, repetition_penalty=repetition_penalty, eos_token_id=tokenizer.eos_token_id
             )
+        print("step 2")
         model_input_ids_len = model_input_ids.size(1)
         response_ids = outputs[:, model_input_ids_len:]
         history_token_ids = torch.concat((history_token_ids, response_ids.cpu()), dim=1)
         response = tokenizer.batch_decode(response_ids)
+        print("step 3")
         print("Bot：" + response[0].strip().replace('</s>', ""))
         user_input = input('User：')
 
