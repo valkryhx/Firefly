@@ -20,7 +20,7 @@ class SFTDataset(Dataset):
 
         #logger.info('Loading data: {}'.format(file))
         for file_name in data_files_list :
-            with open(file, 'r', encoding='utf8') as f:
+            with open(file_name, 'r', encoding='utf8') as f:
                 data_list += f.readlines()
         logger.info("there are {} data in dataset".format(len(data_list)))
         self.data_list = data_list
