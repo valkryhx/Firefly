@@ -107,10 +107,12 @@ def setup_everything():
     # 参考我写的chatGLM-6B-QLoRA/train_qlora_deepspeed_zero.py
     parser.add_argument("--local_rank", type=int, default=0)
     parser.add_argumente("--use_safetensors",type=str,default=True)   #不能用type=bool  否则不能用 --xxx Treu传值。type=bool 只能  --xx传值  提示性不想 参考 https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse 
+    parser.add_argument("--model_name_or_path",type=str,default="fireballoon/baichuan-vicuna-chinese-7b-gptq")
     args = parser.parse_args()
     train_args_file = args.train_args_file
     peft_path = args.peft_path
     use_safetensors = args.use_safetensors  # 
+    model_name_or_path = args.model_name_or_path
     output_dir_overwrite = args.output_dir  #  命令行优先级高 下面会覆盖从json中读取的参数
     """find_unused_parameters 极其重要 必须为False才能DDP分布式训练"""
     ddp_find_unused_parameters = args.ddp_find_unused_parameters
@@ -127,6 +129,8 @@ def setup_everything():
     training_args.deepspeed = training_args_deepspeed
     training_args.peft_path = peft_path
     training_args.use_safetensors = use_safetensors
+    training_args.model_name_or_path =model_name_or_path
+    logger.info(f"mark 1   training_args.model_name_or_path = {training_args.model_name_or_path}")
     logger.info(f"mark 1   training_args.use_safetensors = {training_args.use_safetensors}")
     logger.info(f"mark 1   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
     training_args.ddp_find_unused_parameters  = ddp_find_unused_parameters
