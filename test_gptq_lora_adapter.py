@@ -49,7 +49,10 @@ def main():
     """这个type=bool 的值 只要写进python --use_safetensors A 无论A是什么都将让use_safetensors=True 这里也不能用type=str
        所以这里既然已经默认use_safetensors=False 那在传参时就不要传入这个参数了！很奇怪 
     """
-    parser.add_argument("--use_safetensors", type=bool, default=False, help="If the original GPTQ model is saved in .safetensors format ,then set this to True")
+    #parser.add_argument("--use_safetensors", type=bool, default=False, help="If the original GPTQ model is saved in .safetensors format ,then set this to True")
+    parser.add_argument("--use_safetensors",type=eval, 
+                      choices=[True, False], 
+                      default='True')   #不能用type=bool  否则不能用 --xxx Treu传值。type=bool 只能  --xx传值  提示性不想 参考 https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
     parser.add_argument("--base_model_name_or_path" ,type=str, default="fireballoon/baichuan-vicuna-chinese-7b-gptq")
     args = parser.parse_args()
     # model_name = 'YeungNLP/firefly-baichuan-7b-qlora-sft-merge'
