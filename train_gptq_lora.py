@@ -129,7 +129,7 @@ def setup_everything():
     training_args.deepspeed = training_args_deepspeed
     training_args.peft_path = peft_path
     training_args.use_safetensors = use_safetensors
-    training_args.model_name_or_path =model_name_or_path
+    lora_args.model_name_or_path =model_name_or_path
     logger.info(f"mark 1   training_args.model_name_or_path = {training_args.model_name_or_path}")
     logger.info(f"mark 1   training_args.use_safetensors = {training_args.use_safetensors}")
     logger.info(f"mark 1   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
