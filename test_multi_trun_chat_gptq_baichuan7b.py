@@ -93,6 +93,7 @@ def main():
     user_input = input('User：')
     while True:
         print("进入循环")
+        user_input = user_input.strip()
         user_input = '{}</s>'.format(user_input)
         user_input_ids = tokenizer(user_input, return_tensors="pt", add_special_tokens=False).input_ids
         history_token_ids = torch.concat((history_token_ids, user_input_ids), dim=1)
