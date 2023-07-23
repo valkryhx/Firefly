@@ -355,7 +355,7 @@ def init_components(args, training_args):
     data_collator = SFTDataCollator(tokenizer, args.max_seq_length)
 
     logger.info(training_args)
-    training_args.ddp_find_unused_parameters  = False
+    #training_args.ddp_find_unused_parameters  = False  #代码于20230723改好 这里就不用手动改成False了 直接从参数中获取就行
     logger.info(f"after change training_args.ddp_find_unused_parameters  = {training_args.ddp_find_unused_parameters },type={type(training_args.ddp_find_unused_parameters)}")
     # 初始化Trainer
     trainer = LoRATrainer(
