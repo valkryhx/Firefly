@@ -19,6 +19,7 @@ class SFTDataset(Dataset):
         logger.info(f"data files: {', '.join(data_files_list)}")
 
         #logger.info('Loading data: {}'.format(file))
+        data_list = ""
         for file_name in data_files_list :
             with open(file_name, 'r', encoding='utf8') as f:
                 data_list += f.readlines()
