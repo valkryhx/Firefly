@@ -118,8 +118,8 @@ def setup_everything():
     output_dir_overwrite = args.output_dir  #  命令行优先级高 下面会覆盖从json中读取的参数
     """find_unused_parameters 极其重要 必须为False才能DDP分布式训练"""
     ddp_find_unused_parameters = args.ddp_find_unused_parameters
-    logger.info(f"args.ddp_find_unused_parameters={args.ddp_find_unused_parameters}")
-    logger.info(f"mark 0   ddp_find_unused_parameters = {ddp_find_unused_parameters}")
+    logger.info(f"args.ddp_find_unused_parameters={args.ddp_find_unused_parameters},type={type(args.ddp_find_unused_parameters)}")
+    logger.info(f"mark 0   ddp_find_unused_parameters = {ddp_find_unused_parameters}  ,type={type(ddp_find_unused_parameters)}")
     #here we get deepspeed config  before the args changed by the line#92 args, training_args = parser.parse_json_file(json_file=train_args_file)
     with open(args.deepspeed,'r',encoding='utf-8') as fr:   # 这里就是向TrainingArgs中添加deepseed字段
         training_args_deepspeed = json.load(fr)  # set trainingArgs中deepspeed=ds_config
@@ -134,9 +134,9 @@ def setup_everything():
     lora_args.model_name_or_path =model_name_or_path
     logger.info(f"mark 1   lora_args.model_name_or_path = {lora_args.model_name_or_path}")
     logger.info(f"mark 1   training_args.use_safetensors = {training_args.use_safetensors}")
-    logger.info(f"mark 1   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
+    logger.info(f"mark 1   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters},type={type(training_args.ddp_find_unused_parameters)}")
     training_args.ddp_find_unused_parameters  = ddp_find_unused_parameters
-    logger.info(f"mark 2   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
+    logger.info(f"mark 2   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters},type={type(traing_args.ddp_find_unused_parameters)}")
     # 创建输出目录
     training_args.output_dir = output_dir_overwrite #  命令行优先级高 覆盖从json中读取的参数
     if not os.path.exists(training_args.output_dir):
@@ -145,7 +145,7 @@ def setup_everything():
     # logger.info("train_args:{}".format(training_args))
     # 设置随机种子
     set_seed(training_args.seed)
-    logger.info(f"mark 3   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters}")
+    logger.info(f"mark 3   training_args.ddp_find_unused_parameters = {training_args.ddp_find_unused_parameters},type={type(traing)args.ddp_find_unused_parameters)}")
     logger.info(f"【lora_args】={lora_args}")
     logger.info(f"【training_args】={training_args}")
     return lora_args, training_args
@@ -351,7 +351,7 @@ def init_components(args, training_args):
 
     logger.info(training_args)
     training_args.ddp_find_unused_parameters  = False
-    logger.info(f"after change training_args.ddp_find_unused_parameters  = {training_args.ddp_find_unused_parameters }")
+    logger.info(f"after change training_args.ddp_find_unused_parameters  = {training_args.ddp_find_unused_parameters },type={type(training_args.ddp_find_unused_parameters)}")
     # 初始化Trainer
     trainer = LoRATrainer(
         model=model,
@@ -370,7 +370,7 @@ def main():
     myargs, training_args = setup_everything()
     logger.info(f"myargs={myargs}")
     # 加载各种组件
-    logger.info(f"original training_args.ddp_find_unused_parameters  = {training_args.ddp_find_unused_parameters }")
+    logger.info(f"original training_args.ddp_find_unused_parameters  = {training_args.ddp_find_unused_parameters },type={type(training_args.ddp_find_unused_parameters)}")
     trainer = init_components(myargs, training_args)
     # 开始训练
     logger.info("*** starting training ***")
